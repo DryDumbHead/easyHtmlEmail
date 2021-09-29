@@ -14,6 +14,13 @@ FUNCTION Z_TEMP_SEND_MAIL.
 *"  EXCEPTIONS
 *"      NO_RECEPIENT
 *"----------------------------------------------------------------------
+*&---------------------------------------------------------------------*
+*& Title:  Function module to send email
+*& Author: DryDumbHead (Nitinkumar Gupta)
+*& email:  nitinsgupta193@gmail.com
+*& Date:   27 Sep 2021
+*& gitHub: DryDumbHead/easyHtmlEmail
+*&---------------------------------------------------------------------*
 
   "******************************************************"
   " SAP send mail with CL_BCS

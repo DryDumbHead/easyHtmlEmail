@@ -1,4 +1,11 @@
 *&---------------------------------------------------------------------*
+*& Title:  demo usage of zcl_easy_email
+*& Author: DryDumbHead (Nitinkumar Gupta)
+*& email:  nitinsgupta193@gmail.com
+*& Date:   27 Sep 2021
+*& gitHub: DryDumbHead/easyHtmlEmail
+*&---------------------------------------------------------------------*
+*&---------------------------------------------------------------------*
 *&The Report Demonstrate the useage of ZCL_EASY_EMAIL to Genrate
 *&Beautiful email using HTML Templates (Uploaded Tcode- SMW0)
 *&-------------------------PRE-REQUISITE-------------------------------*
