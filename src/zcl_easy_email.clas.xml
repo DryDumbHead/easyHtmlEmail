@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+    <LANGU>E</LANGU>
+    <DESCRIPT>generate mail using template</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>ADD_DIST_LIST</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>add several Distrbution list</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>ADD_EMAIL</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>add email</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>BUILD_BODY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>consolidated all info and build mail</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>GET_BODY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>get mail body</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>MAIL_BODY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Objcont and Objhead as Table Type</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>PLACEHOLDER_PATTERN</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>regex pattern for placeholder</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>RECIPIENT</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>list of recipent email</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>REMOVE_UNHANDLE_PLACEHOLDER</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>remove unhandled placeholder lines from body</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>REPLACE_PLACEHOLDER</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>insert dynamic values</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>RETURN</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ABAP System Field: Return Code of ABAP Statements</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>SEND_MAIL</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>mail will be sent + commit</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>SET_SUBJECT</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>mail title</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>SET_TEMPLATE</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>choose mail template according to config</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_EASY_EMAIL</CLSNAME>
+     <CMPNAME>SUBJECT</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Short description of contents</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>
