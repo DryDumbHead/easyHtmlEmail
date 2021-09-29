@@ -22,7 +22,7 @@
 *&      TEMPLATENAME      SYCHAR40
 *&      MASTERTEMPLATE    SYCHAR40
 *&    3)Below entry in table ZMAIL_TEMP_CONF:
-*&      030 | E | TEST1 | TEST1 | HTM | ZTESTEMAIL |      |
+*&      030 | E | TEST1 | TEST1 | HTM | ZTESTEMAIL | ZTESTEMAILMASTER  |
 *&    4)Class ZCL_EASY_EMAIL & FM Z_TEMP_SEND_MAIL
 *&---------------------------------------------------------------------*
 
@@ -41,7 +41,8 @@ DATA: lv_string       TYPE string,
 
 DATA : ref_cont TYPE REF TO cl_gui_custom_container,
        ref_html TYPE REF TO cl_gui_html_viewer.
-DATA : go_EASY_EMAIL TYPE REF TO ZCL_EASY_EMAIL.
+DATA : go_EASY_EMAIL TYPE REF TO ZCL_EASY_EMAIL,
+        RETURN TYPE SY-SUBRC.
 
 PARAMETERS: p_Price TYPE char10.
 PARAMETERS: p_VBELN TYPE char10.
@@ -61,7 +62,21 @@ go_EASY_EMAIL->set_template(
   EXPORTING
     scope1        = 'TEST1'
     scope2        = 'TEST1'
+  RECEIVING
+    RETURN        = RETURN
 ).
+IF RETURN IS NOT INITIAL.
+  go_EASY_EMAIL->set_template(
+    EXPORTING
+*      language         = SY-LANGU         " Language Key
+*      template_type    = 'HTM'
+      p_template       = 'ZTESTEMAIL'           " email template
+      p_mastertemplate = 'ZTESTEMAILMASTER'     " master template
+*    RECEIVING
+*      return           =                  " ABAP System Field: Return Code of ABAP Statements
+  ).
+ENDIF.
+
 
 go_EASY_EMAIL->replace_placeholder(
   EXPORTING

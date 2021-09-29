@@ -23,9 +23,13 @@ public section.
   methods SET_TEMPLATE
     importing
       !LANGUAGE type SPRAS default SY-LANGU
-      !SCOPE1 type CHAR10
-      !SCOPE2 type CHAR10
-      !TEMPLATE_TYPE type CHAR3 default 'HTM' .
+      !SCOPE1 type CHAR10 optional
+      !SCOPE2 type CHAR10 optional
+      !TEMPLATE_TYPE type CHAR3 default 'HTM'
+      !P_TEMPLATE type SYCHAR40 optional
+      !P_MASTERTEMPLATE type SYCHAR40 optional
+    returning
+      value(RETURN) type SY-SUBRC .
   methods ADD_EMAIL
     importing
       !EMAIL type AD_SMTPADR .
@@ -53,16 +57,16 @@ protected section.
 private section.
 
   data EMAIL_TEMPLATE type SYCHAR40 .
+  data MASTER_TEMPLATE type SYCHAR40 .
   data MAIL_BODY type SOLI_TAB .
   data SUBJECT type SO_OBJ_DES .
-  data RETURN type SY-SUBRC .
   data PLACEHOLDERS type SWWW_T_MERGE_TABLE .
   data:
     recipient TYPE TABLE OF SOMLRECI1 .
-
+  constants:
 *REGEX for Alphanumeric chars encapsulated by '!'
 *  EG: "!Alpha_123!"
-  CONSTANTS REGX_EXCL_ALPHANUM_EXCL(20) VALUE '.!(\W{1,}).!'.
+    REGX_EXCL_ALPHANUM_EXCL(20) value '.!(\W{1,}).!' ##NO_TEXT.
 ENDCLASS.
 
 
@@ -117,7 +121,11 @@ CLASS ZCL_EASY_EMAIL IMPLEMENTATION.
 
   METHOD build_body.
 
-    IF placeholders[] IS NOT INITIAL AND email_template IS NOT INITIAL.
+    DATA: master_placeholder TYPE swww_t_merge_table,
+          ls_placeholder     LIKE LINE OF master_placeholder,
+          mail_body2         TYPE soli_tab.
+
+    IF placeholders[] IS NOT INITIAL AND me->email_template IS NOT INITIAL.
       CALL FUNCTION 'WWW_HTML_MERGER'
         EXPORTING
           template    = email_template
@@ -125,9 +133,30 @@ CLASS ZCL_EASY_EMAIL IMPLEMENTATION.
           html_table  = mail_body[]
         CHANGING
           merge_table = placeholders.
+      IF me->master_template IS NOT INITIAL.
+        CLEAR : ls_placeholder, master_placeholder.
+
+        ls_placeholder-name = '!MAIN_BODY!'.
+        ls_placeholder-command = ' '.
+        APPEND LINES OF mail_body[] TO ls_placeholder-html[].
+        APPEND ls_placeholder TO master_placeholder.
+
+        CALL FUNCTION 'WWW_HTML_MERGER'
+          EXPORTING
+            template    = me->master_template
+          IMPORTING
+            html_table  = mail_body2[]
+          CHANGING
+            merge_table = master_placeholder.
+        IF sy-subrc = 0.
+          mail_body[] = mail_body2[].
+          CLEAR mail_body2[].
+        ENDIF.
+
+      ENDIF.
     ENDIF.
 
-    if RM_UNHNDL_PLCHLDR is NOT INITIAL.
+    IF rm_unhndl_plchldr IS NOT INITIAL.
       me->remove_unhandle_placeholder( me->placeholder_pattern ).
     ENDIF.
 
@@ -214,21 +243,26 @@ CLASS ZCL_EASY_EMAIL IMPLEMENTATION.
   method SET_TEMPLATE.
 
 
-    IF SCOPE1 IS INITIAL AND SCOPE2 IS INITIAL.
-      RETURN = 1.
-      EXIT.
-    ENDIF.
-
-    select SINGLE TEMPLATENAME FROM ZMAIL_TEMP_CONF
-                        INTO  EMAIL_TEMPLATE
-                        WHERE LANG = LANGUage
+    IF ( SCOPE1 IS NOT INITIAL OR SCOPE2 IS NOT INITIAL ) .
+        select SINGLE TEMPLATENAME MASTERTEMPLATE
+                        INTO  ( EMAIL_TEMPLATE , master_template )
+                        FROM ZMAIL_TEMP_CONF
+                        WHERE LANG   = LANGUage
                           AND SCOPE1 = scope1
                           AND SCOPE2 = scope2
                           AND TYPE = TEMPLATE_TYPE.
-    if sy-subrc <> 0.
-     RETURN = 4.
-     EXIT.
-    endif.
+        if sy-subrc <> 0.
+         RETURN = 4.
+         EXIT.
+        endif.
+    ELSEIF ( P_TEMPLATE IS  NOT INITIAL ).
+        EMAIL_TEMPLATE = P_TEMPLATE.
+        MASTER_TEMPLATE = P_MASTERTEMPLATE.
+    ELSE.
+      RETURN = 1.
+      EXIT.
+
+    ENDIF.
 
   endmethod.
 ENDCLASS.

@@ -2,24 +2,24 @@
 <abapGit version="v1.0.0" serializer="LCL_OBJECT_W3HT" serializer_version="v2.0.0">
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
-   <NAME>ZTESTEMAIL</NAME>
-   <TEXT>responsive test email template</TEXT>
+   <NAME>ZTESTEMAILMASTER</NAME>
+   <TEXT>Master email templae</TEXT>
    <PARAMS>
     <WWWPARAMS>
      <RELID>HT</RELID>
-     <OBJID>ZTESTEMAIL</OBJID>
+     <OBJID>ZTESTEMAILMASTER</OBJID>
      <NAME>fileextension</NAME>
      <VALUE>.html</VALUE>
     </WWWPARAMS>
     <WWWPARAMS>
      <RELID>HT</RELID>
-     <OBJID>ZTESTEMAIL</OBJID>
+     <OBJID>ZTESTEMAILMASTER</OBJID>
      <NAME>filename</NAME>
-     <VALUE>order email template2.html</VALUE>
+     <VALUE>order email template.html</VALUE>
     </WWWPARAMS>
     <WWWPARAMS>
      <RELID>HT</RELID>
-     <OBJID>ZTESTEMAIL</OBJID>
+     <OBJID>ZTESTEMAILMASTER</OBJID>
      <NAME>mimetype</NAME>
      <VALUE>text/html</VALUE>
     </WWWPARAMS>
