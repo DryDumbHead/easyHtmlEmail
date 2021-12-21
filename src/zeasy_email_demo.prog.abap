@@ -1,4 +1,11 @@
 *&---------------------------------------------------------------------*
+*& Title:  Easy Beautiful Email with ABAP + HTML Templates
+*& Author: DryDumbHead (Nitinkumar Gupta)
+*& email:  nitinsgupta193@gmail.com
+*& Date:   27 Sep 2021
+*& gitHub: DryDumbHead/easyHtmlEmail
+*&---------------------------------------------------------------------*
+*&---------------------------------------------------------------------*
 *&The Report Demonstrate the useage of ZCL_EASY_EMAIL to Genrate
 *&Beautiful email using HTML Templates (Uploaded Tcode- SMW0)
 *&-------------------------PRE-REQUISITE-------------------------------*

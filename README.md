@@ -8,7 +8,7 @@ Even simple plain text Email results in lots of irrelevant code in ABAP, so gene
 
 ***easyHtmlEmail*** provides a helper class `Zcl_easy_email` which helps the ABAP developer to consume HTML template to build email.  
 The static part of email will no longer be handled by ABAP code, developer only need to worry about dynamic values in email.  
-[Blog Post](https://blogs.sap.com/2021/10/04/easy-to-generate-maintain-email-abap-html-templates-easyhtmlemail)
+[easyHtmlEmail Blog Post](https://blogs.sap.com/2021/10/04/easy-to-generate-maintain-email-abap-html-templates-easyhtmlemail)
 
 > Note: `Zcl_easy_email` is Built on Top of Function Module `WWW_HTML_MERGER`, so Pros & Cons are inherited. Refer [WWW_HTML_MERGER](https://help.sap.com/saphelp_autoid2007/helpdata/en/2b/d921034b8a11d1894c0000e8323c4f/content.htm?no_cache=true)
 

@@ -1,3 +1,10 @@
+*&---------------------------------------------------------------------*
+*& Title:  Easy Beautiful Email with ABAP + HTML Templates
+*& Author: DryDumbHead (Nitinkumar Gupta)
+*& email:  nitinsgupta193@gmail.com
+*& Date:   27 Sep 2021
+*& gitHub: DryDumbHead/easyHtmlEmail
+*&---------------------------------------------------------------------*
 class ZCL_EASY_EMAIL definition
   public
   final
