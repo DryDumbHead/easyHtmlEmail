@@ -1,6 +1,15 @@
 # easyHtmlEmail changelog
 
-## [0.1.1] - 29 Sept 2021
+## [0.1.1] - 21 Dec 2021
+
+### Added 
+* Add attachments  
+* Ability to handle error by returning cl_bsc from method build_mail()  
+
+### Changed
+* Refactored the method send_mail()  
+
+## [0.1.0] - 29 Sept 2021
 
 ### Added
 * support for Master template to achieve reusability  

@@ -1,5 +1,6 @@
 # easyHtmlEmail
 ### *Easy to Genrate & Maintain Email in SAP (ABAP + HTML/CSS)*
+
 ---
 
 Generating & Maintaing E-mail through ABAP is always dirty code while buildling email body with text-elements/message class.  
@@ -7,6 +8,7 @@ Even simple plain text Email results in lots of irrelevant code in ABAP, so gene
 
 ***easyHtmlEmail*** provides a helper class `Zcl_easy_email` which helps the ABAP developer to consume HTML template to build email.  
 The static part of email will no longer be handled by ABAP code, developer only need to worry about dynamic values in email.  
+[Blog Post](https://blogs.sap.com/2021/10/04/easy-to-generate-maintain-email-abap-html-templates-easyhtmlemail)
 
 > Note: `Zcl_easy_email` is Built on Top of Function Module `WWW_HTML_MERGER`, so Pros & Cons are inherited. Refer [WWW_HTML_MERGER](https://help.sap.com/saphelp_autoid2007/helpdata/en/2b/d921034b8a11d1894c0000e8323c4f/content.htm?no_cache=true)
 
@@ -88,8 +90,6 @@ The static part of email will no longer be handled by ABAP code, developer only 
 5. E-mail visible in SOST  
    ![Final Modern Email in SOST](assests/img/Final_Mail_in_SOST.jpg)
 
-
-
 > Report `zeasy_email_demo` demonstrate the usage of class `Zcl_easy_email`.  
 
 ---
@@ -98,7 +98,8 @@ The static part of email will no longer be handled by ABAP code, developer only 
 - Number of Character in each line in HTML template <= 255  
 - Special care of text encoding required for HTML template. For BASIS 701 templates where stored in ISO-8859-2 encoding (code page 1401), so HTML template must be developed and maintained with ISO-8859-2 encoding. Incorrect encoding may result in unexpected results.  
 
-> SAP has introduces E-MAIL templates + CDS view in S/4 systems.
+> This solution is helpful for non-S/4 system  
+> SAP has introduces much better solution E-MAIL templates + CDS view in S/4 systems [more info](https://blogs.sap.com/2019/10/12/e-mail-templates-in-s4-hana/).
 
 ---
 
