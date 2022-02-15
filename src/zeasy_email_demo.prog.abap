@@ -81,7 +81,7 @@ START-OF-SELECTION .
   go_easy_email->replace_placeholder(
     EXPORTING
       placeholder_name = '!VBELN!'                 " Placeholder to be replaced
-      replacement_type = 'R'              " ('A','B','R',' ')control value & placeholder
+      replacement_type = 'R'              " ('A','B','R',' ','T')control value & placeholder
       single_value     = p_vbeln               " To be filled when 'A', 'B', 'R'
 *    multi_line       =                  " To be filled when ' ' .
   ).
@@ -89,7 +89,7 @@ START-OF-SELECTION .
   go_easy_email->replace_placeholder(
     EXPORTING
       placeholder_name = '!PRICE!'                 " Placeholder to be replaced
-      replacement_type = 'R'              " ('A','B','R',' ')control value & placeholder
+      replacement_type = 'R'              " ('A','B','R',' ','T')control value & placeholder
       single_value     = p_price                " To be filled when 'A', 'B', 'R'
 *    multi_line       =                  " To be filled when ' ' .
   ).
@@ -97,19 +97,27 @@ START-OF-SELECTION .
   DATA : multi_line TYPE soli_tab,
          line       TYPE soli.
 
-  line = 'LINE 1 : LINE1 </br>'.
+  line = 'LINE 1 : LINE1'.
   APPEND line TO multi_line.
-  line = 'LINE 2 : LINE2 </br>'.
+  line = 'LINE 2 : LINE2'.
   APPEND line TO multi_line.
 
   go_easy_email->replace_placeholder(
     EXPORTING
       placeholder_name = '!LOG!'                 " Placeholder to be replaced
-      replacement_type = ' '              " ('A','B','R',' ')control value & placeholder
+      replacement_type = ' '              " ('A','B','R',' ','T')control value & placeholder
 *    single_value     = ''                " To be filled when 'A', 'B', 'R'
+      seperator = zcl_easy_email=>new_line
       multi_line       =  multi_line                " To be filled when ' ' .
   ).
 
+
+*  go_easy_email->replace_placeholder(
+*    EXPORTING
+*      placeholder_name = '!LOG!'                          " Placeholder to be replaced
+*      replacement_type = 'T'                      " ('A','B','R',' ','T')control value & placeholder
+*      itab             =  multi_line                   " Replace placeholder by table rows , when 'T'
+*  ).
 
   "bulidng attachment
   DATA: lc_crlf   TYPE c VALUE cl_bcs_convert=>gc_crlf.
@@ -144,14 +152,13 @@ START-OF-SELECTION .
   go_easy_email->build_mail( ).
 
 IF snd_mail IS NOT INITIAL.
+* implicit conveting  Xstring: sutiable for text , txt, csv
   go_easy_email->add_attachment(
     EXPORTING
       attachment_type    = 'txt'                 " Code for document class
-      attachment_size    = lv_size           " Size of Document Content
-*    attachment_subject = 'Attachment'     " Short description of contents
-      att_content_hex    =  lv_binary_content
+      att_content_txt    = lv_string
   ).
-
+*no implicit conversion : sutiable for Non-text xlsx ,pdf etc img
   go_easy_email->add_attachment(
     EXPORTING
       attachment_type    = 'txt'                 " Code for document class
@@ -164,6 +171,7 @@ ELSE.
 ENDIF.
 
   lt_html_table = go_easy_email->get_body( ).
+
   IF snd_mail IS NOT INITIAL.
     go_easy_email->send_mail( 'X' ).
   ENDIF.

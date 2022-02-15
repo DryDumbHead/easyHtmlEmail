@@ -25,7 +25,7 @@ The static part of email will no longer be handled by ABAP code, developer only 
 - Easy Combining of master & child email templates
 
 ---
-
+## Changes: [...](CHANGELOG.md)
 ## Steps:
 1. Build email Template and upload in T-code `SMW0`.  
     ![Templates in SMW0](assests/img/SMW0.jpg)  

@@ -13,13 +13,18 @@ class ZCL_EASY_EMAIL definition
 public section.
 
   data PLACEHOLDER_PATTERN type CHAR20 value '.!(\W{1,}).!' ##NO_TEXT.
+  constants NEW_LINE type CHAR20 value '</br>' ##NO_TEXT.
+  constants LIST type CHAR20 value '<i>' ##NO_TEXT.
+  constants OPTION type CHAR20 value '<option>' ##NO_TEXT.
 
   methods REPLACE_PLACEHOLDER
     importing
       !PLACEHOLDER_NAME type CHAR30
       !REPLACEMENT_TYPE type CHAR1 default 'R'
       !SINGLE_VALUE type DATA optional
-      !MULTI_LINE type SOLI_TAB optional .
+      value(MULTI_LINE) type SOLI_TAB optional
+      !SEPERATOR type CHAR20 default ZCL_EASY_EMAIL=>NEW_LINE
+      !ITAB type TABLE optional .
   methods SET_TEMPLATE
     importing
       !LANGUAGE type SPRAS default SY-LANGU
@@ -38,7 +43,7 @@ public section.
       !DL type SO_OBJ_NAM .
   methods SEND_MAIL
     importing
-      !COMMIT type CHAR1
+      !COMMIT type CHAR1 default SPACE
       !UNAME type UNAME default SY-UNAME
     returning
       value(SENT_TO_ALL) type CHAR1 .
@@ -59,9 +64,11 @@ public section.
   methods ADD_ATTACHMENT
     importing
       !ATTACHMENT_TYPE type SOODK-OBJTP
-      !ATTACHMENT_SIZE type SOOD-OBJLEN
+      value(ATTACHMENT_SIZE) type SOOD-OBJLEN optional
       !ATTACHMENT_SUBJECT type SOOD-OBJDES default 'Attachment'
-      !ATT_CONTENT_HEX type SOLIX_TAB .
+      value(ATT_CONTENT_HEX) type SOLIX_TAB optional
+      !ATT_CONTENT_TXT type STRING optional
+      !TEXT_ENCODING type ABAP_ENCOD default '4103' .
 protected section.
 private section.
 
@@ -94,13 +101,32 @@ CLASS ZCL_EASY_EMAIL IMPLEMENTATION.
     IF go_document is NOT BOUND.
        me->build_mail( ).
     endif.
+  IF att_content_txt is SUPPLIED AND
+     att_content_hex IS NOT SUPPLIED.
+    TRY.
+      cl_bcs_convert=>string_to_solix(
+      EXPORTING
+        iv_string   = att_content_txt
+        iv_codepage = text_encoding
+        iv_add_bom  = ' '
+      IMPORTING
+        et_solix  = att_content_hex
+        ev_size   = attachment_size ).
+    CATCH cx_bcs.
+      MESSAGE e445(so).
 
+  ENDTRY.
+  ENDIF.
 
+  try.
     go_document->add_attachment(
       i_attachment_type    = attachment_type
       i_attachment_size    = attachment_size
       i_attachment_subject = attachment_subject
       i_att_content_hex    = att_content_hex ).
+  CATCH cx_document_bcs.
+
+  endtry.
   endmethod.
 
 
@@ -321,7 +347,8 @@ CLASS ZCL_EASY_EMAIL IMPLEMENTATION.
 
     DATA PLACEHOLDER TYPE SWWW_T_MERGE_ITEM.
     DATA LV_STRING TYPE STRING.
-
+    FIELD-SYMBOLS <FS_LINE> TYPE soli.
+    FIELD-SYMBOLS <any> TYPE any.
     CLEAR: PLACEHOLDER, LV_STRING.
 
     PLACEHOLDER-NAME = PLACEHOLDER_NAME.
@@ -331,8 +358,37 @@ CLASS ZCL_EASY_EMAIL IMPLEMENTATION.
       LV_STRING = SINGLE_VALUE.
       CONDENSE LV_STRING.
       APPEND LV_STRING TO PLACEHOLDER-HTML[].
-    ELSE.
+    ELSEIF REPLACEMENT_TYPE EQ ' '.
+      LOOP AT MULTI_LINE ASSIGNING <fs_line>.
+      CASE seperator.
+        WHEN me->new_line.
+             CONCATENATE <fs_line> me->new_line INTO <fs_line>.
+        WHEN me->LIST.
+             CONCATENATE '<li>' <fs_line> '</li>' INTO <fs_line>.
+        WHEN me->option.
+             CONCATENATE '<option>' <fs_line> '</option>' INTO <fs_line>.
+        WHEN OTHERS .
+             CONCATENATE <fs_line> seperator INTO <fs_line>.
+      ENDCASE.
+      ENDLOOP.
+
       PLACEHOLDER-HTML[] = MULTI_LINE[].
+    ELSEIF REPLACEMENT_TYPE EQ 'T'.
+      LOOP AT ITAB ASSIGNING FIELD-SYMBOL(<wa>).
+        CONCATENATE LV_STRING '<tr>' space INTO LV_STRING.
+        DO.
+        ASSIGN COMPONENT sy-index OF STRUCTURE <wa> TO <any>.
+        IF SY-subrc <> 0.
+          EXIT.
+        ELSE.
+          CONCATENATE lv_STRING '<td>' <any> '</td>' space INTO LV_STRING.
+        ENDIF.
+        ENDDO.
+        CONCATENATE LV_STRING '</tr>'  INTO LV_STRING.
+      ENDLOOP.
+      PLACEHOLDER-COMMAND = ' '.
+      PLACEHOLDER-HTML[] = CL_BCS_CONVERT=>string_to_soli( iv_string =  LV_STRING ).
+
     ENDIF.
 
     APPEND PLACEHOLDER TO PLACEHOLDERS.
