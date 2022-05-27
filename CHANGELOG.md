@@ -2,7 +2,7 @@
 
 ## [0.1.2] - 11 Feb 2022
 * Add attachments as text file, implicit conversion will be done when string is passed : method add_attachment
-* Replace Placeholder by HTML <li>  <option> <tr> when REPLACEMENT_TYPE is ' ' or 'T' : method Replace_placeholder 
+* Replace Placeholder by HTML &lt;li&gt;  &lt;option&gt; &lt;tr&gt; when REPLACEMENT_TYPE is ' ' or 'T' : method Replace_placeholder 
 
 ## [0.1.1] - 21 Dec 2021
 
